@@ -1,3 +1,4 @@
+/* ! Next: https://www.youtube.com/watch?v=S98uVU2CAl0 https://codepen.io/wesbos/full/OPXpJvK */
 /* * Selector specificity: * value of (0, 0, 0, 0) - use for reset, html value of (0, 0, 0, 1), - use for global styles :root value of (0, 0, 1, 0) - use for CSS variables */
 *,
 *::after,
@@ -5,6 +6,7 @@
   /* * Global and reset styles */
   padding: 0;
   margin: 0;
+  margin-bottom: 1rem;
   font-family: inherit;
   /* Source: Chris Coyier */
   box-sizing: inherit;
@@ -74,6 +76,28 @@ h2,
 h3 {
   color: var(--clr-heading);
   line-height: 1.1;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Source: https://piccalil.li/blog/an-in-depth-guide-to-customising-lists-with-css/ */
+
+ul {
+  padding-inline-start: 1lh;
+}
+
+/* Source: https://www.alwaystwisted.com/articles/underlining-links-with-css */
+a {
+  color: inherit;
+  text-decoration-color: inherit;
+  text-decoration-thickness: 0.125em;
+  text-underline-offset: 0.2em;
+  text-underline-position: under;
+  text-decoration-skip-ink: auto;
+
 }
 
 .visually-hidden {
@@ -206,3 +230,13 @@ h3 {
   --text-color: #f2e4e6;
   --clr-heading: #f2e4e6;
 }
+
+/* https://franktisellano.github.io/datatype/
+.datatype-<uniquifier> {
+  font-family: "Datatype", monospace;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+} */
