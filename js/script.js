@@ -29,17 +29,63 @@ colorThemes.forEach((themeOption) => {
 document.onload = setTheme();
 // * End theme picker Kevin Powell tutorial
 
-// * Click for stars: Josh Comeau's animation course https://courses.joshwcomeau.com/wham/01-particles/01.02-initial-exercises
-// ? This only shows in the blue theme which is where I originally added it??? But I do see the stars in the DOM. I wonder if this is a querySelector issue? When I remove the -1 z-index from the starLayer it works. Maybe the background is too opaque? When I remove it, it works even with the -1 z-index.
-// ? AI ADDED NOTE: I think it is because the starLayer is in the body and not in the container div. I will try moving it to the container div and see if that works. I also need to add a z-index to the starLayer so that it is above the other elements. 
-// Vanilla JS replacements for Lodash helpers
+
+// * Vanilla JS replacements for Lodash helpers for Josh Comeau's animation course: https://courses.joshwcomeau.com/wham/01-particles/01.02-initial-exercises
 const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const range = (length) => Array.from({ length }, (_, index) => index);
 
-const btn = document.querySelector('.particleButton');
+// * Like button: Josh Comeau's animation course https://courses.joshwcomeau.com/wham/01-particles/01.01-cleanup
+const btnLike = document.querySelector('.particleButton-like');
+
+// Our “source of truth” for the animation’s fade duration.
+// This ensures that the cleanup timeout will never fire
+// before the animation has completed.
+const FADE_DURATION = 1000;
+
+btnLike.addEventListener('click', () => {
+  btnLike.classList.toggle('liked');
+
+  if (!btnLike.classList.contains('liked')) {
+    return;
+  }
+
+  // We’ll collect all freshly-created particles in this array:
+  const particles = [];
+
+  range(5).forEach(() => {
+    const particle = document.createElement('span');
+    particle.classList.add('particle');
+
+    particle.style.top = random(0, 100) + '%';
+    particle.style.left = random(0, 100) + '%';
+
+    // Set the fade duration through an inline style,
+    // so that we can use our “source of truth”:
+    particle.style.animationDuration = FADE_DURATION + 'ms';
+
+    btnLike.appendChild(particle);
+
+    // Keep track of this particle, so that it can be cleaned up:
+    particles.push(particle);
+  });
+
+  // Schedule a timeout that will destroy all freshly-created
+  // particles after the animation has completed:
+  window.setTimeout(() => {
+    particles.forEach((particle) => {
+      particle.remove();
+    });
+
+    // We add 200ms to really be 100% sure that the cleanup
+    // function won’t interrupt the fade-out animation:
+  }, FADE_DURATION + 200);
+});
+
+// * Click for stars: Josh Comeau's animation course https://courses.joshwcomeau.com/wham/01-particles/01.02-initial-exercises
+const btnStars = document.querySelector('.particleButton-stars');
 const starLayer = document.querySelector('.starLayer');
 
-btn.addEventListener('click', () => {
+btnStars.addEventListener('click', () => {
   // Add 10 stars with each click
   range(10).forEach(() => {
     // Each star

@@ -6,6 +6,7 @@
   /* * Global and reset styles */
   padding: 0;
   margin: 0;
+  /* ? Do I like this? Adds a space between elements after removing the default margin. But adds a space after all elements... */
   margin-bottom: 1rem;
   font-family: inherit;
   /* Source: Chris Coyier */
@@ -22,6 +23,7 @@
   --bg-color-3: #bce4f9;
   --bg-color-4: #f2fafe;
   --my-gradient: linear-gradient(#ffffff, #ebebeb);
+  --my-gradient: rgba(255, 255, 255, 0.5);
 
   /* * Text colors */
   --text-color: #38322c;
@@ -44,6 +46,8 @@
   --display-font-family: "Comfortaa", sans-serif;
   --body-font-family: "Mulish", sans-serif;
   --custom-font-family: sans-serif;
+
+  height: 100%;
 }
 
 html,
@@ -65,8 +69,9 @@ body {
   color: var(--text-color);
 }
 
-.container {
-  height: 100vh;
+.container-1 {
+  /* height: 100vh; */
+  height: 400px;
   display: grid;
   place-content: center;
 }
@@ -204,7 +209,7 @@ a {
 }
 
 :root:has(#pink:checked) {
-  --my-gradient: linear-gradient(#fcf6fb, hsl(310 50% 90%));
+  --my-gradient: linear-gradient(#fcf6fb50, hsl(310 50% 90%));
   --bg-color-2: hsl(310 50% 100%);
   --text-color: hsl(308, 50%, 3%);
   --clr-heading: hsl(308, 50%, 3%);
@@ -218,14 +223,15 @@ a {
 }
 
 :root:has(#green:checked) {
-  --my-gradient: linear-gradient(hsl(110, 27%, 96%), hsl(109 50% 90%));
+  --my-gradient: linear-gradient(hsla(110, 27%, 96%, 0.5), hsla(109 50% 90%, 0.5));
+  --my-gradient: hsla(110, 27%, 96%, 0.5);
   --bg-color-2: hsl(109 50% 100%);
   --text-color: hsl(111, 88%, 3%);
   --clr-heading: hsl(111, 88%, 3%);
 }
 
 :root:has(#dark:checked) {
-  --my-gradient: linear-gradient(hsl(248, 47%, 54%), hsl(240, 44%, 6%));
+  --my-gradient: linear-gradient(hsla(248, 47%, 54%, 0.5), hsla(240, 44%, 6%, 0.5));
   --bg-color-2: hsl(209 50% 5%);
   --text-color: #f2e4e6;
   --clr-heading: #f2e4e6;
@@ -241,9 +247,116 @@ a {
     "wdth" 100;
 } */
 
-/* * Click for stars: Josh Comeau's animation course */
-.particleButton {
+/* * Like button: Josh Comeau's animation course  */
+html {
+  --red: oklch(0.65 0.3 19.41);
+}
+
+/* * Added to remove margin added above after removing all margins */
+svg {
+  margin: 0;
+}
+
+.container-2 {
+  display: grid;
+  place-content: center;
+  /* height: 100vh; */
+  height: 150px;
+  /* background: hsl(210deg 15% 6%); */
+  /* padding: 3rem; */
+}
+
+.particleButton-like {
+  position: relative;
+  padding: 16px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:hover {
+    background: hsl(0deg 0% 100% / 0.1);
+
+    path {
+      stroke: var(--red);
+    }
+  }
+
+  &.liked path {
+    fill: var(--red);
+    stroke: var(--red);
+  }
+}
+
+.particleButton-like svg {
+  position: relative;
+  display: block;
+  width: 3rem;
+  height: 3rem;
+}
+
+/*
+  This utility class will hide the element from the screen, but it will remain accessible for folks using screen readers. I’m using it here to provide alternative text for the heart icon, so that non-sighted users can still understand the button’s purpose.
+
+  For more information, see:
+  https://www.joshwcomeau.com/snippets/react-components/visually-hidden/
+*/
+.visually-hidden:not(:focus):not(:active) {
   position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.particle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  /*
+      The animation’s duration has been removed, since we’re
+      setting it as an inline style, so that it can be
+      synchronized with the cleanup timeout:
+    */
+  animation: fadeOut forwards;
+  /*
+      Some particles spill beyond the edge of the button.
+      If the user happens to hover over them, they shouldn't
+      trigger the button’s hover state. We’ll ignore pointer
+      events with this CSS property:
+    */
+  pointer-events: none;
+}
+
+/* * Click for stars: Josh Comeau's animation course */
+.container-3 {
+  display: grid;
+  place-content: center;
+  /* height: 100vh; */
+  height: 150px;
+  /* background: hsl(210deg 15% 6%); */
+  /* padding: 3rem; */
+  /* * Can be used to make the height of the background fit a computer screen when there aren’t enough elements to fill the vertical space. But otherwise not needed */
+  /* padding-bottom: 500px; */
+}
+
+.particleButton-stars {
+  /* * Would position the button absolutely at the bottom of the window, but it would also make it impossible to scroll down to see the rest of the page. So, we’ll leave it in the normal flow of the document:  */
+  /* position: absolute; */
   /* Ensure that the button sits in front of the particles: */
   z-index: 2;
   left: 0;
